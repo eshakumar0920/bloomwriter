@@ -1,6 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
-import { BookOpen, BarChart3, Settings, Info, Shield } from "lucide-react";
+import { BookOpen, BarChart3, Settings, Info, Shield, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const navigation = [
   { name: "Journal", href: "/journal", icon: BookOpen },
@@ -11,6 +13,17 @@ const navigation = [
 
 const Navigation = () => {
   const location = useLocation();
+  const { toast } = useToast();
+
+  const handleLogout = () => {
+    localStorage.removeItem("bloomwriter-authenticated");
+    toast({
+      title: "Logged Out",
+      description: "You have been securely logged out.",
+    });
+    // Force reload to reset authentication state
+    window.location.reload();
+  };
 
   return (
     <nav className="bg-card border-b border-border shadow-gentle">
@@ -50,6 +63,18 @@ const Navigation = () => {
                 </Link>
               );
             })}
+            
+            {/* Logout Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleLogout}
+              className="ml-2 text-muted-foreground hover:text-foreground"
+              title="Logout"
+            >
+              <LogOut className="h-4 w-4" />
+              <span className="hidden sm:block ml-2">Logout</span>
+            </Button>
           </div>
         </div>
       </div>

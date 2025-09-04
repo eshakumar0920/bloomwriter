@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import WeeklySummary from "@/components/ui/weekly-summary";
+import PasswordProtection from "@/components/ui/password-protection";
 import { BarChart3, TrendingUp, Calendar, Tag, Sparkles, Users, Brain, Lightbulb } from "lucide-react";
 import { LocalStorage } from "@/lib/storage";
 import { SentimentAnalyzer } from "@/lib/sentiment";
@@ -15,20 +16,31 @@ const Dashboard = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<'7' | '30'>('30');
   const [weeklyInsight, setWeeklyInsight] = useState<WeeklyInsight | null>(null);
   const [showWeeklySummary, setShowWeeklySummary] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
-    const allEntries = LocalStorage.getEntries();
-    setEntries(allEntries);
-    
-    // Check if we should show weekly summary
-    const lastWeekStart = getLastWeekStart();
-    const weekInsight = InsightGenerator.generateWeeklyInsights(allEntries, lastWeekStart);
-    
-    if (weekInsight.totalEntries > 0) {
-      setWeeklyInsight(weekInsight);
-      setShowWeeklySummary(true);
+    // Check if user is already authenticated
+    const authenticated = localStorage.getItem("bloomwriter-authenticated") === "true";
+    setIsAuthenticated(authenticated);
+
+    if (authenticated) {
+      const allEntries = LocalStorage.getEntries();
+      setEntries(allEntries);
+      
+      // Check if we should show weekly summary
+      const lastWeekStart = getLastWeekStart();
+      const weekInsight = InsightGenerator.generateWeeklyInsights(allEntries, lastWeekStart);
+      
+      if (weekInsight.totalEntries > 0) {
+        setWeeklyInsight(weekInsight);
+        setShowWeeklySummary(true);
+      }
     }
-  }, []);
+  }, [isAuthenticated]);
+
+  const handleAuthenticated = () => {
+    setIsAuthenticated(true);
+  };
 
   const getLastWeekStart = () => {
     const now = new Date();
@@ -74,6 +86,11 @@ const Dashboard = () => {
       minute: '2-digit'
     }).format(date);
   };
+
+  // Show password protection if not authenticated
+  if (!isAuthenticated) {
+    return <PasswordProtection onAuthenticated={handleAuthenticated} />;
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
