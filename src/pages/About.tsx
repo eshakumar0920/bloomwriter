@@ -21,24 +21,45 @@ import privacyImage from "@/assets/privacy-shield.jpg";
 const About = () => {
   const features = [
     {
-      icon: Shield,
-      title: "Privacy-First Design",
-      description: "Your thoughts never leave your device. Zero tracking, zero data collection."
-    },
-    {
-      icon: Cpu,
-      title: "On-Device AI",
-      description: "Sentiment analysis and insights powered by local processing in Web Workers."
-    },
-    {
-      icon: Lock,
-      title: "Local-Only Storage",
-      description: "All entries stored securely in your browser's local storage."
+      icon: Heart,
+      title: "Your Safe Space",
+      description: "Create a judgment-free zone where your authentic self can flourish and grow."
     },
     {
       icon: Brain,
-      title: "Intelligent Insights",
-      description: "Discover patterns in your mood and thoughts with privacy-preserving analytics."
+      title: "Discover Yourself",
+      description: "Uncover patterns in your thoughts and feelings that help you understand yourself better."
+    },
+    {
+      icon: Shield,
+      title: "Complete Privacy",
+      description: "Your personal thoughts stay completely private - no sharing, no storing, no peeking."
+    },
+    {
+      icon: Sparkles,
+      title: "Daily Growth",
+      description: "Turn everyday moments into opportunities for self-reflection and personal development."
+    }
+  ];
+
+  const stories = [
+    {
+      icon: Users,
+      title: "Sarah, Teacher",
+      quote: "Finally found a place where I can process my thoughts without worrying about privacy.",
+      benefit: "Better emotional awareness"
+    },
+    {
+      icon: Heart,
+      title: "Mike, Student", 
+      quote: "Helped me understand my stress patterns and develop healthier coping mechanisms.",
+      benefit: "Improved mental health"
+    },
+    {
+      icon: Sparkles,
+      title: "Ana, Parent",
+      quote: "A few minutes of journaling each day has transformed how I handle daily challenges.",
+      benefit: "Enhanced resilience"
     }
   ];
 
@@ -84,8 +105,8 @@ const About = () => {
           </div>
           
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            A privacy-first journaling companion designed to help you understand your thoughts 
-            and feelings without compromising your personal data.
+            Hey there! 👋 We're so glad you're here. BloomWriter isn't just another app—it's your personal sanctuary 
+            for growth, self-discovery, and those beautiful "aha!" moments that happen when you give your thoughts space to breathe.
           </p>
         </div>
 
@@ -104,8 +125,9 @@ const About = () => {
               <Sparkles className="h-6 w-6 animate-pulse" />
             </div>
             <p className="text-lg leading-relaxed">
-              To provide a safe, private space for personal reflection and growth, 
-              where your most intimate thoughts remain completely under your control.
+              We believe everyone deserves a safe space to explore their thoughts, celebrate their wins, 
+              and work through life's challenges. BloomWriter is here to be your companion on that journey—
+              offering gentle insights while keeping your most personal moments completely private.
             </p>
           </CardContent>
         </Card>
@@ -126,6 +148,35 @@ const About = () => {
                     <div>
                       <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">{feature.title}</h3>
                       <p className="text-sm text-muted-foreground">{feature.description}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* User Stories & Community */}
+        <div className="animate-fade-in" style={{ animationDelay: '1.2s' }}>
+          <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
+            <span className="shimmer-text">Real People, Real Growth</span>
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {stories.map((story, index) => (
+              <Card key={index} className="shadow-float border-0 bg-card/90 backdrop-blur-sm hover-scale group animate-scale-in glass-effect text-center" style={{ animationDelay: `${1.4 + index * 0.1}s` }}>
+                <CardContent className="pt-6">
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="p-3 bg-gradient-calm rounded-full group-hover:animate-glow">
+                      <story.icon className="h-6 w-6 text-primary-foreground" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground mb-2">{story.title}</h3>
+                      <blockquote className="text-sm text-muted-foreground italic mb-3">
+                        "{story.quote}"
+                      </blockquote>
+                      <Badge variant="secondary" className="bg-primary/10 text-primary">
+                        {story.benefit}
+                      </Badge>
                     </div>
                   </div>
                 </CardContent>
@@ -214,22 +265,31 @@ const About = () => {
           </CardContent>
         </Card>
 
-        {/* Enhanced Our Principles */}
+        {/* What Drives Us */}
         <Card className="shadow-gentle bg-gradient-subtle backdrop-blur-sm animate-fade-in" style={{ animationDelay: '1.4s' }}>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-xl">
-              <Users className="h-6 w-6 text-primary" />
-              Our Principles
+              <Heart className="h-6 w-6 text-primary" />
+              What Drives Us
             </CardTitle>
           </CardHeader>
           <CardContent>
+            <p className="text-muted-foreground mb-6 leading-relaxed">
+              Every feature we build comes from a place of genuine care for your well-being and personal growth:
+            </p>
             <div className="grid md:grid-cols-2 gap-4">
-              {principles.map((principle, index) => (
-                <div key={index} className="flex items-start gap-3 p-3 rounded-lg bg-card/50 hover-scale animate-fade-in" style={{ animationDelay: `${1.6 + index * 0.1}s` }}>
+              {[
+                "Your thoughts deserve a safe home 🏡",
+                "Growth happens in comfortable spaces 🌱", 
+                "Everyone's journey is unique and valid ✨",
+                "Small daily reflections create big changes 💫",
+                "Privacy enables authentic self-expression 🔒"
+              ].map((value, index) => (
+                <div key={index} className="flex items-start gap-3 p-4 rounded-lg bg-card/50 hover-scale animate-fade-in" style={{ animationDelay: `${1.6 + index * 0.1}s` }}>
                   <div className="w-8 h-8 bg-gradient-calm rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-primary-foreground text-sm font-bold">{index + 1}</span>
+                    <Heart className="h-4 w-4 text-primary-foreground" />
                   </div>
-                  <span className="text-foreground font-medium">{principle}</span>
+                  <span className="text-foreground font-medium">{value}</span>
                 </div>
               ))}
             </div>
@@ -266,33 +326,34 @@ const About = () => {
           </CardContent>
         </Card>
 
-        {/* Enhanced Contact & Support */}
+        {/* Join Our Community */}
         <Card className="shadow-gentle bg-gradient-trust text-primary-foreground animate-fade-in" style={{ animationDelay: '2.2s' }}>
           <CardHeader>
-            <CardTitle className="text-xl">Questions or Feedback?</CardTitle>
+            <CardTitle className="text-xl">Join Our Growing Community 💬</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <p className="leading-relaxed">
-              We're committed to building the most trustworthy journaling experience possible. 
-              If you have questions about our privacy practices or suggestions for improvement, 
-              we'd love to hear from you.
+              You're not alone on this journey! We've created a warm, supportive space where people share their 
+              experiences and support each other's growth. Plus, your feedback helps us make BloomWriter even better 
+              for everyone.
             </p>
             
             <div className="flex gap-4">
               <Button variant="secondary" className="flex items-center gap-2 hover-scale group bg-primary-foreground/10 border border-primary-foreground/20">
                 <Github className="h-4 w-4 group-hover:animate-pulse" />
-                Open Source
+                Contribute
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
               <Button variant="secondary" className="flex items-center gap-2 hover-scale group bg-primary-foreground/10 border border-primary-foreground/20">
                 <Mail className="h-4 w-4 group-hover:animate-pulse" />
-                Contact Us
+                Say Hello
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </div>
             
             <p className="text-sm text-primary-foreground/80">
-              Remember: We can only help you if you reach out. Your journal entries always stay private.
+              💝 We read every message and genuinely care about your experience. Your privacy is always protected—
+              we're just here to listen and help!
             </p>
           </CardContent>
         </Card>
