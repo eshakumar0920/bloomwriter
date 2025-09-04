@@ -45,5 +45,12 @@ I wanted to show that you can still use AI to make journaling easier (like promp
 
 ---
 
+## Future Enhancements
+- Implement true end-to-end encrypted sync across devices
+- Swap heuristic sentiment analysis with a lightweight on-device ML model
+- Add mobile PWA features (offline mode, push notifications)
+- More advanced reflection summaries with trend comparisons over months
+
+---
 ### Author
 Built by Esha Kumar
