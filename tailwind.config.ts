@@ -26,7 +26,8 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					glow: 'hsl(var(--primary-glow))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -52,6 +53,18 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				privacy: {
+					safe: 'hsl(var(--privacy-safe))',
+					warning: 'hsl(var(--privacy-warning))',
+					secure: 'hsl(var(--privacy-secure))'
+				},
+				mood: {
+					1: 'hsl(var(--mood-1))',
+					2: 'hsl(var(--mood-2))',
+					3: 'hsl(var(--mood-3))',
+					4: 'hsl(var(--mood-4))',
+					5: 'hsl(var(--mood-5))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -67,6 +80,20 @@ export default {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			backgroundImage: {
+				'gradient-calm': 'var(--gradient-calm)',
+				'gradient-trust': 'var(--gradient-trust)',
+				'gradient-subtle': 'var(--gradient-subtle)'
+			},
+			boxShadow: {
+				gentle: 'var(--shadow-gentle)',
+				privacy: 'var(--shadow-privacy)',
+				float: 'var(--shadow-float)'
+			},
+			transitionTimingFunction: {
+				smooth: 'var(--transition-smooth)',
+				gentle: 'var(--transition-gentle)'
 			},
 			keyframes: {
 				'accordion-down': {
