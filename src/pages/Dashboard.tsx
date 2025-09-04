@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import WeeklySummary from "@/components/ui/weekly-summary";
 import PasswordProtection from "@/components/ui/password-protection";
 import { BarChart3, TrendingUp, Calendar, Tag, Sparkles, Users, Brain, Lightbulb } from "lucide-react";
+import { Link } from "react-router-dom";
 import { LocalStorage } from "@/lib/storage";
 import { SentimentAnalyzer } from "@/lib/sentiment";
 import { InsightGenerator, WeeklyInsight } from "@/lib/insights";
@@ -139,9 +140,11 @@ const Dashboard = () => {
             <p className="text-muted-foreground mb-4">
               Start journaling to see your personal insights and patterns.
             </p>
-            <Button variant="default" className="bg-gradient-calm">
-              Write Your First Entry
-            </Button>
+            <Link to="/journal">
+              <Button variant="default" className="bg-gradient-calm">
+                Write Your First Entry
+              </Button>
+            </Link>
           </CardContent>
         </Card>
       ) : (

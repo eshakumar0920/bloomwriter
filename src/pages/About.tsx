@@ -79,7 +79,7 @@ const About = () => {
               <Star className="h-5 w-5 text-yellow-500" fill="currentColor" />
               <Star className="h-5 w-5 text-yellow-500" fill="currentColor" />
               <Star className="h-5 w-5 text-yellow-500" fill="currentColor" />
-              <span className="text-sm text-muted-foreground ml-2">Trusted by thousands</span>
+              <span className="text-sm text-muted-foreground ml-2">Built with a privacy-first mindset</span>
             </div>
           </div>
           
@@ -147,6 +147,7 @@ const About = () => {
             <p className="text-foreground text-lg leading-relaxed">
               We believe that journaling is deeply personal. That's why BloomWriter was built 
               from the ground up with privacy as the core principle, not an afterthought.
+              <span className="text-muted-foreground"> Optional encrypted sync coming soon.</span>
             </p>
             
             <div className="grid md:grid-cols-2 gap-6">

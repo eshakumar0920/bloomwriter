@@ -5,6 +5,8 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { 
   Shield, 
   Download, 
@@ -13,7 +15,8 @@ import {
   Bell, 
   Database,
   AlertTriangle,
-  CheckCircle
+  CheckCircle,
+  Key
 } from "lucide-react";
 import { LocalStorage } from "@/lib/storage";
 import { AppSettings } from "@/types/journal";
@@ -22,6 +25,9 @@ import { useToast } from "@/hooks/use-toast";
 const Settings = () => {
   const [settings, setSettings] = useState<AppSettings>(LocalStorage.getSettings());
   const [isLoading, setIsLoading] = useState(false);
+  const [showPasscodeModal, setShowPasscodeModal] = useState(false);
+  const [passcode, setPasscode] = useState("");
+  const [confirmPasscode, setConfirmPasscode] = useState("");
   const { toast } = useToast();
 
   useEffect(() => {
@@ -81,6 +87,41 @@ const Settings = () => {
       });
     }
   };
+
+  const handleSetPasscode = () => {
+    if (!passcode || passcode.length < 4) {
+      toast({
+        title: "Invalid Passcode",
+        description: "Passcode must be at least 4 characters long.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (passcode !== confirmPasscode) {
+      toast({
+        title: "Passcode Mismatch",
+        description: "Passcodes do not match. Please try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Set the authentication flag and store the passcode hash
+    localStorage.setItem("bloomwriter-authenticated", "true");
+    localStorage.setItem("bloomwriter-passcode", btoa(passcode)); // Simple encoding, not secure but fine for demo
+    
+    setShowPasscodeModal(false);
+    setPasscode("");
+    setConfirmPasscode("");
+    
+    toast({
+      title: "Passcode Set",
+      description: "Your app passcode has been set successfully. You can now access the Dashboard.",
+    });
+  };
+
+  const isPasscodeSet = localStorage.getItem("bloomwriter-passcode") !== null;
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
@@ -156,6 +197,73 @@ const Settings = () => {
               onCheckedChange={(checked) => handleSettingChange('e2eeEnabled', checked)}
               disabled
             />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <Label htmlFor="app-passcode" className="text-base font-medium">
+                App Passcode
+              </Label>
+              <p className="text-sm text-muted-foreground">
+                {isPasscodeSet ? "Passcode is set for Dashboard access" : "Set a passcode to secure Dashboard access"}
+              </p>
+            </div>
+            <Dialog open={showPasscodeModal} onOpenChange={setShowPasscodeModal}>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="sm">
+                  <Key className="h-4 w-4 mr-2" />
+                  {isPasscodeSet ? "Change Passcode" : "Set Passcode"}
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Set App Passcode</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="passcode">Enter Passcode</Label>
+                    <Input
+                      id="passcode"
+                      type="password"
+                      placeholder="Enter at least 4 characters"
+                      value={passcode}
+                      onChange={(e) => setPasscode(e.target.value)}
+                      maxLength={20}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="confirm-passcode">Confirm Passcode</Label>
+                    <Input
+                      id="confirm-passcode"
+                      type="password"
+                      placeholder="Confirm your passcode"
+                      value={confirmPasscode}
+                      onChange={(e) => setConfirmPasscode(e.target.value)}
+                      maxLength={20}
+                    />
+                  </div>
+                  <div className="flex gap-2 pt-2">
+                    <Button 
+                      onClick={handleSetPasscode}
+                      className="flex-1 bg-gradient-calm hover:bg-gradient-trust"
+                    >
+                      Set Passcode
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => {
+                        setShowPasscodeModal(false);
+                        setPasscode("");
+                        setConfirmPasscode("");
+                      }}
+                      className="flex-1"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
 
           <Alert>

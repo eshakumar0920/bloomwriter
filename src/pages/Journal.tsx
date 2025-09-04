@@ -140,7 +140,7 @@ const Journal = () => {
           {/* Enhanced Privacy Reminder */}
           <div className="flex items-center justify-center gap-3 text-privacy-safe text-sm font-medium bg-privacy-safe/5 backdrop-blur-sm border border-privacy-safe/20 rounded-full px-6 py-3 animate-fade-in hover-scale" style={{ animationDelay: '0.4s' }}>
             <Shield className="h-4 w-4 animate-pulse" />
-            <span>End-to-end encrypted • Local storage only</span>
+            <span>Local-only processing • Your data never leaves this device</span>
           </div>
         </div>
 
