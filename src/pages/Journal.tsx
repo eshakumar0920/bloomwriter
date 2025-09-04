@@ -3,11 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import MoodSelector from "@/components/ui/mood-selector";
-import { Shield, Save, Calendar } from "lucide-react";
+import { Shield, Save, Calendar, Sparkles, ArrowRight } from "lucide-react";
 import { LocalStorage } from "@/lib/storage";
 import { SentimentAnalyzer } from "@/lib/sentiment";
 import { JournalEntry } from "@/types/journal";
 import { useToast } from "@/hooks/use-toast";
+import heroImage from "@/assets/hero-journaling.jpg";
 
 const Journal = () => {
   const [text, setText] = useState("");
@@ -64,86 +65,137 @@ const Journal = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-8">
-      {/* Header */}
-      <div className="text-center space-y-4">
-        <div className="flex items-center justify-center gap-2 text-primary">
-          <Calendar className="h-8 w-8" />
-        </div>
-        <h1 className="text-3xl font-bold text-foreground">Daily Journal</h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
-          Take a moment to reflect on your day. Your thoughts are processed locally 
-          and never leave your device.
-        </p>
-        
-        {/* Privacy Reminder */}
-        <div className="flex items-center justify-center gap-2 text-privacy-safe text-sm font-medium">
-          <Shield className="h-4 w-4" />
-          <span>End-to-end encrypted • Local storage only</span>
-        </div>
+    <div className="relative overflow-hidden">
+      {/* Hero Background */}
+      <div className="absolute inset-0 z-0">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10"
+          style={{ backgroundImage: `url(${heroImage})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
       </div>
 
-      {/* Journal Entry Form */}
-      <Card className="shadow-float border-0 bg-card/80 backdrop-blur-sm">
-        <CardHeader>
-          <CardTitle className="text-center text-xl">
-            {new Date().toLocaleDateString('en-US', { 
-              weekday: 'long', 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-8">
-          {/* Mood Selector */}
-          <MoodSelector value={mood} onChange={setMood} />
+      {/* Floating Elements */}
+      <div className="absolute top-20 left-10 w-20 h-20 bg-primary/10 rounded-full blur-xl animate-float" />
+      <div className="absolute top-40 right-20 w-32 h-32 bg-accent/10 rounded-full blur-xl animate-float" style={{ animationDelay: '2s' }} />
+      <div className="absolute bottom-20 left-1/4 w-24 h-24 bg-primary-glow/10 rounded-full blur-xl animate-float" style={{ animationDelay: '4s' }} />
 
-          {/* Text Entry */}
-          <div className="space-y-3">
-            <label htmlFor="journal-text" className="text-lg font-semibold text-foreground block">
-              What's on your mind?
-            </label>
-            <Textarea
-              id="journal-text"
-              placeholder="Write about your day, thoughts, feelings, or anything that comes to mind..."
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              className="min-h-[200px] resize-none border-2 border-border focus:border-primary transition-colors"
-              maxLength={5000}
-            />
-            <div className="flex justify-between items-center text-sm text-muted-foreground">
-              <span>Your entry will be analyzed for insights while staying completely private</span>
-              <span>{text.length}/5000</span>
+      <div className="relative z-10 max-w-4xl mx-auto p-6 space-y-8">
+        {/* Enhanced Header */}
+        <div className="text-center space-y-6 animate-fade-in">
+          <div className="flex items-center justify-center gap-3 text-primary animate-glow">
+            <div className="p-3 bg-primary/10 rounded-full animate-float">
+              <Sparkles className="h-8 w-8" />
             </div>
           </div>
-
-          {/* Save Button */}
-          <div className="flex justify-center">
-            <Button
-              onClick={handleSave}
-              disabled={isLoading || !text.trim()}
-              className="bg-gradient-calm hover:bg-gradient-trust text-primary-foreground font-semibold px-8 py-6 text-lg shadow-privacy"
-            >
-              <Save className="h-5 w-5 mr-2" />
-              {isLoading ? "Saving..." : "Save Entry"}
-            </Button>
+          
+          <div className="space-y-2">
+            <h1 className="text-4xl md:text-5xl font-bold shimmer-text">
+              Daily Journal
+            </h1>
+            <div className="w-24 h-1 bg-gradient-calm mx-auto rounded-full" />
           </div>
-        </CardContent>
-      </Card>
+          
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            Take a moment to reflect on your day. Your thoughts are processed locally 
+            and never leave your device.
+          </p>
+          
+          {/* Enhanced Privacy Reminder */}
+          <div className="flex items-center justify-center gap-3 text-privacy-safe text-sm font-medium bg-privacy-safe/5 backdrop-blur-sm border border-privacy-safe/20 rounded-full px-6 py-3 animate-fade-in hover-scale" style={{ animationDelay: '0.4s' }}>
+            <Shield className="h-4 w-4 animate-pulse" />
+            <span>End-to-end encrypted • Local storage only</span>
+          </div>
+        </div>
 
-      {/* Quick Tips */}
-      <Card className="bg-accent/50 border-accent shadow-gentle">
-        <CardContent className="pt-6">
-          <h3 className="font-semibold text-accent-foreground mb-3">Writing Tips</h3>
-          <ul className="text-sm text-accent-foreground/80 space-y-2">
-            <li>• Write freely without worrying about grammar or structure</li>
-            <li>• Include both positive and challenging moments from your day</li>
-            <li>• Try to capture specific details that made moments meaningful</li>
-            <li>• Consider what you learned or how you grew today</li>
-          </ul>
-        </CardContent>
-      </Card>
+        {/* Enhanced Journal Entry Form */}
+        <Card className="shadow-float border-0 bg-card/90 backdrop-blur-lg animate-scale-in glass-effect" style={{ animationDelay: '0.6s' }}>
+          <CardHeader className="text-center">
+            <CardTitle className="text-xl bg-gradient-calm bg-clip-text text-transparent">
+              {new Date().toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              })}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-8">
+            {/* Enhanced Mood Selector */}
+            <div className="animate-fade-in" style={{ animationDelay: '0.8s' }}>
+              <MoodSelector value={mood} onChange={setMood} />
+            </div>
+
+            {/* Enhanced Text Entry */}
+            <div className="space-y-4 animate-fade-in" style={{ animationDelay: '1s' }}>
+              <label htmlFor="journal-text" className="text-lg font-semibold text-foreground block flex items-center gap-2">
+                <Calendar className="h-5 w-5 text-primary" />
+                What's on your mind?
+              </label>
+              <Textarea
+                id="journal-text"
+                placeholder="Write about your day, thoughts, feelings, or anything that comes to mind..."
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                className="min-h-[200px] resize-none border-2 border-border focus:border-primary transition-all duration-300 focus:shadow-privacy backdrop-blur-sm bg-background/50"
+                maxLength={5000}
+              />
+              <div className="flex justify-between items-center text-sm text-muted-foreground">
+                <span className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                  Your entry will be analyzed for insights while staying completely private
+                </span>
+                <span className={`font-medium ${text.length > 4500 ? 'text-destructive' : text.length > 4000 ? 'text-yellow-500' : ''}`}>
+                  {text.length}/5000
+                </span>
+              </div>
+            </div>
+
+            {/* Enhanced Save Button */}
+            <div className="flex justify-center animate-fade-in" style={{ animationDelay: '1.2s' }}>
+              <Button
+                onClick={handleSave}
+                disabled={isLoading || !text.trim()}
+                className="bg-gradient-calm hover:bg-gradient-trust text-primary-foreground font-semibold px-8 py-6 text-lg shadow-privacy hover-scale group relative overflow-hidden"
+              >
+                <div className="flex items-center gap-2">
+                  <Save className="h-5 w-5 transition-transform group-hover:scale-110" />
+                  <span>{isLoading ? "Saving..." : "Save Entry"}</span>
+                  {!isLoading && <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />}
+                </div>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Enhanced Quick Tips */}
+        <Card className="bg-accent/30 border-accent/30 shadow-gentle backdrop-blur-sm animate-fade-in hover-scale" style={{ animationDelay: '1.4s' }}>
+          <CardContent className="pt-6">
+            <h3 className="font-semibold text-accent-foreground mb-4 flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-primary" />
+              Writing Tips for Deeper Reflection
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="flex items-start gap-2 text-sm text-accent-foreground/90">
+                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                <span>Write freely without worrying about grammar or structure</span>
+              </div>
+              <div className="flex items-start gap-2 text-sm text-accent-foreground/90">
+                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                <span>Include both positive and challenging moments</span>
+              </div>
+              <div className="flex items-start gap-2 text-sm text-accent-foreground/90">
+                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                <span>Capture specific details that made moments meaningful</span>
+              </div>
+              <div className="flex items-start gap-2 text-sm text-accent-foreground/90">
+                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                <span>Consider what you learned or how you grew today</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
