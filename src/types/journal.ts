@@ -24,6 +24,14 @@ export interface AppSettings {
   privacyMode: boolean;
 }
 
+export interface JournalPrompt {
+  id: string;
+  text: string;
+  category: 'reflection' | 'mood' | 'gratitude' | 'growth' | 'stress' | 'relationships' | 'creativity';
+  context?: string;
+  followUp?: boolean;
+}
+
 export interface SentimentAnalysis {
   score: number; // -1 to 1
   keywords: string[];

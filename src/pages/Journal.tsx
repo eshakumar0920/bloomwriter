@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import MoodSelector from "@/components/ui/mood-selector";
-import { Shield, Save, Calendar, Sparkles, ArrowRight } from "lucide-react";
+import PromptSuggestions from "@/components/ui/prompt-suggestions";
+import { Shield, Save, Calendar, Sparkles, ArrowRight, MessageCircle } from "lucide-react";
 import { LocalStorage } from "@/lib/storage";
 import { SentimentAnalyzer } from "@/lib/sentiment";
-import { JournalEntry } from "@/types/journal";
+import { PromptGenerator } from "@/lib/prompts";
+import { JournalEntry, JournalPrompt } from "@/types/journal";
 import { useToast } from "@/hooks/use-toast";
 import heroImage from "@/assets/hero-journaling.jpg";
 
@@ -14,7 +16,36 @@ const Journal = () => {
   const [text, setText] = useState("");
   const [mood, setMood] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPrompts, setShowPrompts] = useState(true);
+  const [prompts, setPrompts] = useState<JournalPrompt[]>([]);
+  const [entries, setEntries] = useState<JournalEntry[]>([]);
   const { toast } = useToast();
+
+  useEffect(() => {
+    // Load existing entries and generate contextual prompts
+    const existingEntries = LocalStorage.getEntries();
+    setEntries(existingEntries);
+    refreshPrompts(existingEntries);
+  }, []);
+
+  const refreshPrompts = (existingEntries?: JournalEntry[]) => {
+    const currentEntries = existingEntries || entries;
+    const contextualPrompts = PromptGenerator.getContextualPrompts(currentEntries, mood);
+    setPrompts(contextualPrompts);
+  };
+
+  const handlePromptSelect = (prompt: JournalPrompt) => {
+    setText(prev => {
+      const newText = prev.length > 0 ? `${prev}\n\n${prompt.text}\n\n` : `${prompt.text}\n\n`;
+      return newText;
+    });
+    setShowPrompts(false);
+    
+    toast({
+      title: "Prompt added!",
+      description: "Feel free to respond in your own words or take it in any direction.",
+    });
+  };
 
   const handleSave = async () => {
     if (!text.trim()) {
@@ -50,9 +81,14 @@ const Journal = () => {
         description: "Your journal entry has been saved locally and securely.",
       });
 
-      // Reset form
+      // Reset form and refresh prompts
       setText("");
       setMood(3);
+      setShowPrompts(true);
+      
+      const updatedEntries = LocalStorage.getEntries();
+      setEntries(updatedEntries);
+      refreshPrompts(updatedEntries);
     } catch (error) {
       toast({
         title: "Error",
@@ -123,18 +159,50 @@ const Journal = () => {
           <CardContent className="space-y-8">
             {/* Enhanced Mood Selector */}
             <div className="animate-fade-in" style={{ animationDelay: '0.8s' }}>
-              <MoodSelector value={mood} onChange={setMood} />
+              <MoodSelector 
+                value={mood} 
+                onChange={(newMood) => {
+                  setMood(newMood);
+                  // Refresh prompts when mood changes
+                  setTimeout(() => refreshPrompts(), 100);
+                }} 
+              />
             </div>
 
+            {/* Dynamic Prompt Suggestions */}
+            {showPrompts && prompts.length > 0 && (
+              <div className="animate-fade-in" style={{ animationDelay: '1s' }}>
+                <PromptSuggestions
+                  prompts={prompts}
+                  onSelectPrompt={handlePromptSelect}
+                  onRefreshPrompts={() => refreshPrompts()}
+                />
+              </div>
+            )}
+
+            {/* Toggle Prompts Button */}
+            {!showPrompts && (
+              <div className="flex justify-center animate-fade-in" style={{ animationDelay: '1s' }}>
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowPrompts(true)}
+                  className="text-primary hover:bg-primary/10"
+                >
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Show writing suggestions
+                </Button>
+              </div>
+            )}
+
             {/* Enhanced Text Entry */}
-            <div className="space-y-4 animate-fade-in" style={{ animationDelay: '1s' }}>
+            <div className="space-y-4 animate-fade-in" style={{ animationDelay: '1.2s' }}>
               <label htmlFor="journal-text" className="text-lg font-semibold text-foreground block flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-primary" />
                 What's on your mind?
               </label>
               <Textarea
                 id="journal-text"
-                placeholder="Write about your day, thoughts, feelings, or anything that comes to mind..."
+                placeholder={text.length === 0 ? "Start writing here, or choose a prompt above to get started..." : ""}
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 className="min-h-[200px] resize-none border-2 border-border focus:border-primary transition-all duration-300 focus:shadow-privacy backdrop-blur-sm bg-background/50"
@@ -152,7 +220,7 @@ const Journal = () => {
             </div>
 
             {/* Enhanced Save Button */}
-            <div className="flex justify-center animate-fade-in" style={{ animationDelay: '1.2s' }}>
+            <div className="flex justify-center animate-fade-in" style={{ animationDelay: '1.4s' }}>
               <Button
                 onClick={handleSave}
                 disabled={isLoading || !text.trim()}
@@ -169,7 +237,7 @@ const Journal = () => {
         </Card>
 
         {/* Enhanced Quick Tips */}
-        <Card className="bg-accent/30 border-accent/30 shadow-gentle backdrop-blur-sm animate-fade-in hover-scale" style={{ animationDelay: '1.4s' }}>
+        <Card className="bg-accent/30 border-accent/30 shadow-gentle backdrop-blur-sm animate-fade-in hover-scale" style={{ animationDelay: '1.6s' }}>
           <CardContent className="pt-6">
             <h3 className="font-semibold text-accent-foreground mb-4 flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" />

@@ -2,19 +2,40 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BarChart3, TrendingUp, Calendar, Tag, Sparkles } from "lucide-react";
+import WeeklySummary from "@/components/ui/weekly-summary";
+import { BarChart3, TrendingUp, Calendar, Tag, Sparkles, Users, Brain, Lightbulb } from "lucide-react";
 import { LocalStorage } from "@/lib/storage";
 import { SentimentAnalyzer } from "@/lib/sentiment";
+import { InsightGenerator, WeeklyInsight } from "@/lib/insights";
 import { JournalEntry } from "@/types/journal";
 import { cn } from "@/lib/utils";
 
 const Dashboard = () => {
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [selectedPeriod, setSelectedPeriod] = useState<'7' | '30'>('30');
+  const [weeklyInsight, setWeeklyInsight] = useState<WeeklyInsight | null>(null);
+  const [showWeeklySummary, setShowWeeklySummary] = useState(false);
 
   useEffect(() => {
-    setEntries(LocalStorage.getEntries());
+    const allEntries = LocalStorage.getEntries();
+    setEntries(allEntries);
+    
+    // Check if we should show weekly summary
+    const lastWeekStart = getLastWeekStart();
+    const weekInsight = InsightGenerator.generateWeeklyInsights(allEntries, lastWeekStart);
+    
+    if (weekInsight.totalEntries > 0) {
+      setWeeklyInsight(weekInsight);
+      setShowWeeklySummary(true);
+    }
   }, []);
+
+  const getLastWeekStart = () => {
+    const now = new Date();
+    const dayOfWeek = now.getDay();
+    const diff = now.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1) - 7; // Last Monday
+    return new Date(now.setDate(diff));
+  };
 
   const filteredEntries = entries.filter(entry => {
     const daysAgo = parseInt(selectedPeriod);
@@ -56,6 +77,14 @@ const Dashboard = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
+      {/* Weekly Summary */}
+      {showWeeklySummary && weeklyInsight && (
+        <WeeklySummary
+          insight={weeklyInsight}
+          onDismiss={() => setShowWeeklySummary(false)}
+        />
+      )}
+      
       {/* Header */}
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center gap-2 text-primary">
