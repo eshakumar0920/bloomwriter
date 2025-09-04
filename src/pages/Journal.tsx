@@ -112,9 +112,9 @@ const Journal = () => {
       </div>
 
       {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-primary/10 rounded-full blur-xl animate-float" />
-      <div className="absolute top-40 right-20 w-32 h-32 bg-accent/10 rounded-full blur-xl animate-float" style={{ animationDelay: '2s' }} />
-      <div className="absolute bottom-20 left-1/4 w-24 h-24 bg-primary-glow/10 rounded-full blur-xl animate-float" style={{ animationDelay: '4s' }} />
+      <div className="absolute top-32 left-8 w-16 h-16 bg-primary/5 rounded-full blur-2xl animate-float pointer-events-none" />
+      <div className="absolute top-48 right-12 w-20 h-20 bg-accent/5 rounded-full blur-2xl animate-float pointer-events-none" style={{ animationDelay: '2s' }} />
+      <div className="absolute bottom-32 left-1/3 w-18 h-18 bg-primary/5 rounded-full blur-2xl animate-float pointer-events-none" style={{ animationDelay: '4s' }} />
 
       <div className="relative z-10 max-w-4xl mx-auto p-6 space-y-8">
         {/* Enhanced Header */}
