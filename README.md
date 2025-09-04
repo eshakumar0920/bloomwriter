@@ -14,7 +14,6 @@ It’s designed to help people get past blank-page anxiety, reflect more easily,
 - **Daily journaling** with mood tracking and optional smart prompts
 - **On-device sentiment analysis** that tags entries and detects themes locally
 - **Dashboard** with mood averages, sentiment trends, streaks, and common themes
-- **Weekly reflection summaries** that highlight patterns and give gentle suggestions
 - **Privacy & control**:
   - Local-only mode (default)
   - App passcode to protect insights
