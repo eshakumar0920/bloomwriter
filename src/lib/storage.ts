@@ -1,9 +1,9 @@
 import { JournalEntry, WeeklySummary, AppSettings } from "@/types/journal";
 
 const STORAGE_KEYS = {
-  ENTRIES: "mindvault_entries",
-  SUMMARIES: "mindvault_summaries", 
-  SETTINGS: "mindvault_settings",
+  ENTRIES: "bloomwriter_entries",
+  SUMMARIES: "bloomwriter_summaries", 
+  SETTINGS: "bloomwriter_settings",
 } as const;
 
 // Default settings

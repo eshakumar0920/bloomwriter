@@ -53,7 +53,7 @@ const About = () => {
         <div className="flex items-center justify-center gap-2 text-primary">
           <Heart className="h-8 w-8" />
         </div>
-        <h1 className="text-3xl font-bold text-foreground">About MindVault</h1>
+        <h1 className="text-3xl font-bold text-foreground">About BloomWriter</h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           A privacy-first journaling companion designed to help you understand your thoughts 
           and feelings without compromising your personal data.
@@ -74,7 +74,7 @@ const About = () => {
       {/* Key Features */}
       <div>
         <h2 className="text-2xl font-bold text-foreground mb-6 text-center">
-          Why Choose MindVault?
+          Why Choose BloomWriter?
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {features.map((feature, index) => (
@@ -105,7 +105,7 @@ const About = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-foreground">
-            We believe that journaling is deeply personal. That's why MindVault was built 
+            We believe that journaling is deeply personal. That's why BloomWriter was built 
             from the ground up with privacy as the core principle, not an afterthought.
           </p>
           
@@ -187,7 +187,7 @@ const About = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-muted-foreground">
-            MindVault is built using modern web technologies that prioritize client-side processing:
+            BloomWriter is built using modern web technologies that prioritize client-side processing:
           </p>
           <div className="flex flex-wrap gap-2">
             <Badge variant="secondary">React 18</Badge>

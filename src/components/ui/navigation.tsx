@@ -19,7 +19,7 @@ const Navigation = () => {
           {/* Logo */}
           <Link to="/journal" className="flex items-center gap-2 text-primary font-semibold">
             <Shield className="h-6 w-6" />
-            <span className="text-lg">MindVault</span>
+            <span className="text-lg">BloomWriter</span>
           </Link>
 
           {/* Privacy Badge */}
