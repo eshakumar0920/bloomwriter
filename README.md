@@ -24,7 +24,15 @@ It’s designed to help people get past blank-page anxiety, reflect more easily,
 For demo purposes there’s also a simple **Developer Mode** that simulates multiple entries so you can see weekly insights right away.
 
 ---
+## Design Approach
 
+The design is centered on privacy and ease of use:
+- Local-only processing so entries never leave the device
+- Context-aware prompts to reduce blank-page anxiety
+- Weekly summaries that turn raw entries into growth insights
+- Clear privacy indicators and user controls (passcode, export/delete)
+
+---
 ## Tech Stack
 - Next.js + TypeScript + TailwindCSS
 - IndexedDB for local storage
