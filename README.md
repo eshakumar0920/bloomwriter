@@ -6,7 +6,7 @@ It’s designed to help people get past blank-page anxiety, reflect more easily,
 ---
 
 ## Demo Video
-👉 [[Watch the demo here](https://your-video-link.com)](https://youtu.be/ZspDEWVmYK4)
+👉 https://youtu.be/ZspDEWVmYK4
 
 ---
 
